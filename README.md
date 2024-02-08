@@ -1,1 +1,50 @@
 # rda_task_12_backup_database
+
+write a script: 
+- consumes database credentials from environment variables DB_USERNAME and DB_PASSWORD
+- creates a full database backup for database "ShopDB" and restores the created backup to an empty database "ShopDBReserve", which already exists on the database server 
+- migrates only data from database "ShopDB" to database "ShopDBDevelopment". The ShopDBDevelopment is alreay created and has database schema populated
+
+# Backup and restore database
+
+mysqldupm can be a very handy tool, and you will see it while working on this task. You will deal with 3 databases, all hosted on the same server: 
+- `ShopDB` - a production database for online shop. This is the database with a real user data. 
+- `ShopDBReserve` - a copy of production database, used for a fast disaster recovery. 
+- `ShopDBDevelopment` - a database, used by the development team. 
+
+You were tasked to develop an automated procedure, which runs every night. The procedure consist of 2 activities: 
+
+1. Creating a full database backup from `ShopDB` database, and restoring it to `ShopDBReserve` for fast disaster recovery
+2. Moving data from production database `ShopDB` to `ShopDBDevelopment` (database schema should not be copied from production to development environment). 
+
+The activities will be execuded on a schedule as a [cron job](https://www.hostinger.com/tutorials/cron-job), and you need to write a bash script, which will be used by a job. 
+
+
+## Prerequisites
+
+1. Install and configure a MySQL database server on a Virtual Machine.
+2. Fork this repository.
+
+## Requirements
+
+In this task, you will need to write a bash script in file `task.sh`. Script should implement a procedure for a backup and restoration of a database, described bellow: 
+
+1. Read database username and password from environment variables DB_USER and DB_PASSWORD. 
+
+2. Create a full backup of the database `ShopDB` using mysqldump, and restore it to the database `ShopDBReserve`. 
+
+3. Create a data backup from the database `ShopDB`, and restore it to the database `ShopDBDevelopment`. 
+
+In order to test this script, you will need to to some preparations: 
+
+1. Connect to your database server, and drop the database `ShopDB` if you have it already. 
+
+2. Create databases, described in the task, using script `create-database.sql` 
+
+3. Connect to your database server using SSH, and export environment variables with database credentials: 
+```
+export DB_USER="<db-username>"
+export DB_PASSWORD="<db-password>"
+```
+
+4. Run your script without arguments. 
