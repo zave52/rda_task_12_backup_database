@@ -41,10 +41,26 @@ In order to test this script, you will need to to some preparations:
 
 2. Create databases, described in the task, using script `create-database.sql` 
 
-3. Connect to your database server using SSH, and export environment variables with database credentials: 
+3. Create a database user, which has just enough permissions to complete required actions: 
 ```
-export DB_USER="<db-username>"
+CREATE USER 'backup'@'%' IDENTIFIED BY '<password>';
+
+-- configure minimum requored permissions for performing a db backup using mysqldump: 
+GRANT SELECT, LOCK TABLES, SHOW VIEW, PROCESS ON *.* TO 'backup'@'%';
+
+-- configure required permissions to restore a database 
+GRANT ALL ON ShopDBReserve.* TO 'backup'@'%';
+
+-- configure required permissions to restore only data
+GRANT INSERT, LOCK TABLES, ALTER ON ShopDBDevelopment.* TO 'backup'@'%';
+```
+
+4. Connect to your database server using SSH, and export environment variables with database credentials: 
+```
+export DB_USER="backup"
 export DB_PASSWORD="<db-password>"
 ```
 
-4. Run your script without arguments. 
+5. Run your script without arguments. 
+
+6. Query the data in the databases: table `Products` should be presend in both `ShopDBReserve` and `ShopDBDevelopment` databases, and it should have same amount of recotrs as in the  `ShopDB` database
