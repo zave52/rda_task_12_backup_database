@@ -1,10 +1,3 @@
-# rda_task_12_backup_database
-
-write a script: 
-- consumes database credentials from environment variables DB_USERNAME and DB_PASSWORD
-- creates a full database backup for database "ShopDB" and restores the created backup to an empty database "ShopDBReserve", which already exists on the database server 
-- migrates only data from database "ShopDB" to database "ShopDBDevelopment". The ShopDBDevelopment is alreay created and has database schema populated
-
 # Backup and restore database
 
 mysqldupm can be a very handy tool, and you will see it while working on this task. You will deal with 3 databases, all hosted on the same server: 
